@@ -1,7 +1,8 @@
-import React, { useEffect, useContext, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import GoogleSignIn from "./../components/sharable/GoogleSignIn";
 import Card from "./../components/Card";
+import { Redirect } from "react-router-dom";
 
 const CardContainer = styled.div`
     display: flex;

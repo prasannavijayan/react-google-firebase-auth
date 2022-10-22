@@ -2,25 +2,17 @@ import * as Page from "../pages";
 
 const routes = [
     {
-      path: "/main",
-      exact: true,
-      component: Page.Main
-    },
-    {
-      path: "/about",
-      exact: true,
-      component: Page.About,
-    },
-    {
-        path: "/login",
+        path: "/main",
         exact: true,
-        component: Page.Login
+        auth: true,
+        component: Page.Main
     },
     {
-      path: "/",
-      exact: true,
-      component: Page.Login
-  }
+        path: "/about",
+        exact: true,
+        auth: true,
+        component: Page.About,
+    }
 ];
 
 export default routes;

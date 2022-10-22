@@ -1,24 +1,31 @@
 import React, {useState, useEffect,  createContext} from "react";
-import { auth } from "../services/firebase"
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 // User Context - Move to redux
 const UserContext = createContext({user: null})
+const auth = getAuth();
 
 const UserProvider = function UserProvider(props) {
-    const [user, setuser] = useState(null);
+    const [currentUser, setCurrentUser] = useState(null);
+    const [inProgress, setInProgress] = useState(true);
 
     useEffect(() => {
-        auth.onAuthStateChanged(async (user) => {
-            if (user) {
-                const { displayName, email }  = user;
-                setuser({ displayName, email });
-            } else {
-                setuser(null);
+        onAuthStateChanged(
+            auth,
+            (user) => {
+                if (user) {
+                    const { displayName, email, accessToken }  = user;
+                    setCurrentUser({ displayName, email, accessToken });
+                    setInProgress(false);
+                } else {
+                    setInProgress(false);
+                }
             }
-        })
-    },[])
+        )
+    }, []);
+
     
-    return <UserContext.Provider value={user}>{props.children}</UserContext.Provider>
+    return <UserContext.Provider value={{currentUser: currentUser, inProgress: inProgress}}>{props.children}</UserContext.Provider>
 }
 
 export default UserProvider;
